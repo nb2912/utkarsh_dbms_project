@@ -1,5 +1,6 @@
 import prisma from '@/lib/db';
 import type { products, users } from '@prisma/client';
+import BuyButton from './BuyButton';
 
 // We can define a more specific type for the product with the seller's name
 type ProductWithSeller = products & {
@@ -42,6 +43,7 @@ export default async function ProductsPage() {
                   <p className="text-zinc-700 dark:text-zinc-300">Description: {product.description}</p>
                   <p className="text-zinc-700 dark:text-zinc-300">Location: {product.location}</p>
                   <p className="text-zinc-700 dark:text-zinc-300">Seller: {product.users?.name || 'N/A'}</p>
+                  <BuyButton productId={product.id} />
                 </li>
               ))}
             </ul>

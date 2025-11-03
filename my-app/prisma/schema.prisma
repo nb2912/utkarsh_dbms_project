@@ -15,20 +15,35 @@ model users {
   address   String?         @db.Text
   user_type users_user_type
   password  String          @db.VarChar(255)
+  orders    orders[]
   products  products[]
 }
 
 model products {
-  id          Int     @id @default(autoincrement())
-  name        String  @db.VarChar(255)
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
   quantity    Int
-  price       Decimal @db.Decimal(10, 2)
-  description String? @db.Text
-  location    String? @db.VarChar(255)
+  price       Decimal  @db.Decimal(10, 2)
+  description String?  @db.Text
+  location    String?  @db.VarChar(255)
   sellerId    Int
-  users       users   @relation(fields: [sellerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "products_ibfk_1")
+  orders      orders[]
+  users       users    @relation(fields: [sellerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "products_ibfk_1")
 
   @@index([sellerId], map: "sellerId")
+}
+
+model orders {
+  id         Int       @id @default(autoincrement())
+  buyerId    Int
+  productId  Int
+  quantity   Int
+  order_date DateTime? @default(now()) @db.Timestamp(0)
+  users      users     @relation(fields: [buyerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_ibfk_1")
+  products   products  @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_ibfk_2")
+
+  @@index([buyerId], map: "buyerId")
+  @@index([productId], map: "productId")
 }
 
 enum users_user_type {
