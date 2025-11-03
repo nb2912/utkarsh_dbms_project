@@ -1,7 +1,21 @@
 import prisma from '@/lib/db';
+import type { Decimal } from '@prisma/client/runtime/library';
+
+type ProductWithSeller = {
+  id: number;
+  name: string;
+  quantity: number;
+  price: Decimal;
+  description: string | null;
+  location: string | null;
+  sellerId: number;
+  users: {
+    name: string | null;
+  } | null;
+};
 
 export default async function ProductsPage() {
-  const products = await prisma.products.findMany({
+  const products: ProductWithSeller[] = await prisma.products.findMany({
     include: {
       users: {
         select: {
@@ -22,7 +36,7 @@ export default async function ProductsPage() {
             <p className="text-center text-zinc-700 dark:text-zinc-300">No products found.</p>
           ) : (
             <ul className="space-y-4">
-              {products.map((product) => (
+              {products.map((product: ProductWithSeller) => (
                 <li
                   key={product.id}
                   className="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-md shadow-sm"
