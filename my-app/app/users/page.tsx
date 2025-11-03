@@ -1,7 +1,18 @@
 import prisma from '@/lib/db';
+import type { users_user_type } from '@prisma/client';
+
+type User = {
+  id: number;
+  name: string;
+  email: string;
+  phone: string | null;
+  address: string | null;
+  user_type: users_user_type;
+  password: string;
+};
 
 export default async function UsersPage() {
-  const users = await prisma.users.findMany();
+  const users: User[] = await prisma.users.findMany();
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black p-4">
@@ -14,7 +25,7 @@ export default async function UsersPage() {
             <p className="text-center text-zinc-700 dark:text-zinc-300">No users found.</p>
           ) : (
             <ul className="space-y-4">
-              {users.map((user) => (
+              {users.map((user: User) => (
                 <li
                   key={user.id}
                   className="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-md shadow-sm"
