@@ -15,6 +15,20 @@ model users {
   address   String?         @db.Text
   user_type users_user_type
   password  String          @db.VarChar(255)
+  products  products[]
+}
+
+model products {
+  id          Int     @id @default(autoincrement())
+  name        String  @db.VarChar(255)
+  quantity    Int
+  price       Decimal @db.Decimal(10, 2)
+  description String? @db.Text
+  location    String? @db.VarChar(255)
+  sellerId    Int
+  users       users   @relation(fields: [sellerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "products_ibfk_1")
+
+  @@index([sellerId], map: "sellerId")
 }
 
 enum users_user_type {

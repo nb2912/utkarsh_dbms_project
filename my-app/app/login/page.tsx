@@ -27,7 +27,7 @@ export default function Login() {
     if (response.ok) {
       const { user } = await response.json();
       if (user.user_type === 'buyer') {
-        router.push('/');
+        router.push('/products');
       } else if (user.user_type === 'seller') {
         router.push('/seller');
       }

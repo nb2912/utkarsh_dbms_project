@@ -17,8 +17,13 @@ export default function Dashboard() {
             </button>
           </Link>
           <Link href="/signup">
-            <button className="w-full sm:w-auto flex justify-center py-3 px-6 border border-transparent rounded-md shadow-sm text-lg font-medium text-indigo-600 bg-white border-indigo-600 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-zinc-800 dark:text-indigo-400 dark:border-indigo-400 dark:hover:bg-zinc-700">
+            <button className="w-full sm:w-auto flex justify-center py-3 px-6 border border-transparent rounded-md shadow-sm text-lg font-medium text-indigo-600 bg-white border-indigo-600 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-zinc-800 dark:text-indigo-400 dark:hover:bg-zinc-700">
               Sign Up
+            </button>
+          </Link>
+          <Link href="/products">
+            <button className="w-full sm:w-auto flex justify-center py-3 px-6 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+              View All Products
             </button>
           </Link>
         </div>
