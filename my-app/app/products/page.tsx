@@ -1,14 +1,8 @@
 import prisma from '@/lib/db';
-import type { Decimal } from '@prisma/client/runtime/library';
+import type { products, users } from '@prisma/client';
 
-type ProductWithSeller = {
-  id: number;
-  name: string;
-  quantity: number;
-  price: Decimal;
-  description: string | null;
-  location: string | null;
-  sellerId: number;
+// We can define a more specific type for the product with the seller's name
+type ProductWithSeller = products & {
   users: {
     name: string | null;
   } | null;
