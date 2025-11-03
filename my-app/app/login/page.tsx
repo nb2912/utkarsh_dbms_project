@@ -1,15 +1,22 @@
-"use client";
+'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log({ email, password });
+    if (email === 'admin@gmail.com' && password === 'admin@12345') {
+      router.push('/admin');
+    } else {
+      // Handle other user logins
+      console.log({ email, password });
+      alert('Invalid credentials');
+    }
   };
 
   return (
