@@ -8,14 +8,32 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (email === 'admin@gmail.com' && password === 'admin@12345') {
       router.push('/admin');
+      return;
+    }
+
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (response.ok) {
+      const { user } = await response.json();
+      if (user.user_type === 'buyer') {
+        router.push('/');
+      } else if (user.user_type === 'seller') {
+        router.push('/seller');
+      }
     } else {
-      // Handle other user logins
-      console.log({ email, password });
-      alert('Invalid credentials');
+      const error = await response.json();
+      alert(error.error || 'An error occurred');
     }
   };
 

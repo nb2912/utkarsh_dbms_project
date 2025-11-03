@@ -1,0 +1,1 @@
+dir /a > dir_output.txt

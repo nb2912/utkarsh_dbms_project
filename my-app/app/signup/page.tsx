@@ -1,6 +1,7 @@
-"use client";
+'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Signup() {
   const [userType, setUserType] = useState('buyer');
@@ -8,11 +9,32 @@ export default function Signup() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log({ userType, name, email, phone, address });
+
+    if (password !== confirmPassword) {
+      alert("Passwords don't match");
+      return;
+    }
+
+    const response = await fetch('/api/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, email, phone, address, userType, password }),
+    });
+
+    if (response.ok) {
+      router.push('/login');
+    } else {
+      const error = await response.json();
+      alert(error.error || 'An error occurred');
+    }
   };
 
   return (
@@ -102,6 +124,38 @@ export default function Signup() {
               rows={3}
               className="mt-1 block w-full px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black dark:text-white"
             ></textarea>
+          </div>
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="mt-1 block w-full px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black dark:text-white"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+            >
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              className="mt-1 block w-full px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black dark:text-white"
+            />
           </div>
           <div>
             <button
