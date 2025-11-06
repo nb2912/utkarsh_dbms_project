@@ -2,6 +2,8 @@ import prisma from '@/lib/db';
 import type { products, users } from '@prisma/client';
 import BuyButton from './BuyButton';
 
+export const dynamic = 'force-dynamic';
+
 // We can define a more specific type for the product with the seller's name
 type ProductWithSeller = products & {
   users: {
