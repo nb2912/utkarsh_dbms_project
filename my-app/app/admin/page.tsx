@@ -10,7 +10,7 @@ export default async function AdminDashboard() {
   });
   const allOrders = await prisma.orders.findMany({
     include: {
-      users_orders_buyerIdTousers: { select: { name: true } },
+      users: { select: { name: true } },
       products: { select: { name: true } },
     },
   });
@@ -49,7 +49,7 @@ export default async function AdminDashboard() {
           <ul className="space-y-2">
             {allOrders.map((order) => (
               <li key={order.id} className="bg-zinc-100 dark:bg-zinc-800 p-2 rounded-md">
-                Order #{order.id}: {order.quantity} x {order.products?.name || 'N/A'} bought by {order.users_orders_buyerIdTousers?.name || 'N/A'}
+                Order #{order.id}: {order.quantity} x {order.products?.name || 'N/A'} bought by {order.users?.name || 'N/A'}
               </li>
             ))}
           </ul>
